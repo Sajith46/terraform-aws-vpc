@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         AWS_REGION = "us-east-1"
+        PATH = "C:\\Terraform;${env.PATH}"
     }
     stages {
         stage('Clone Repository') {
