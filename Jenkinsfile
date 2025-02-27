@@ -2,8 +2,6 @@ pipeline {
     agent any
     environment {
         AWS_REGION = "us-east-1"
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
     }
     stages {
         stage('Clone Repository') {
@@ -11,9 +9,24 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Sajith46/terraform-aws-vpc.git'
             }
         }
+        stage('Setup AWS Credentials') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'aws-access-key', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'echo "AWS credentials configured"'
+                }
+            }
+        }
         stage('Initialize Terraform') {
             steps {
                 sh 'terraform init'
+            }
+        }
+        stage('Validate Terraform') {
+            steps {
+                sh 'terraform validate'
             }
         }
         stage('Plan Infrastructure') {
@@ -23,7 +36,7 @@ pipeline {
         }
         stage('Apply Infrastructure') {
             steps {
-                sh 'terraform apply -auto-approve'
+                sh 'terraform apply -auto-approve tfplan'
             }
         }
     }
