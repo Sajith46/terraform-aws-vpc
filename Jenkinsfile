@@ -15,28 +15,37 @@ pipeline {
                     string(credentialsId: 'aws-access-key', variable: 'AWS_ACCESS_KEY_ID'),
                     string(credentialsId: 'aws-secret-key', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    sh 'echo "AWS credentials configured"'
+                    bat '''
+                    set AWS_ACCESS_KEY_ID=%AWS_ACCESS_KEY_ID%
+                    set AWS_SECRET_ACCESS_KEY=%AWS_SECRET_ACCESS_KEY%
+                    echo AWS credentials configured
+                    '''
                 }
+            }
+        }
+        stage('Check Terraform Installation') {
+            steps {
+                bat 'terraform version'
             }
         }
         stage('Initialize Terraform') {
             steps {
-                sh 'terraform init'
+                bat 'terraform init'
             }
         }
         stage('Validate Terraform') {
             steps {
-                sh 'terraform validate'
+                bat 'terraform validate'
             }
         }
         stage('Plan Infrastructure') {
             steps {
-                sh 'terraform plan -out=tfplan'
+                bat 'terraform plan -out=tfplan'
             }
         }
         stage('Apply Infrastructure') {
             steps {
-                sh 'terraform apply -auto-approve tfplan'
+                bat 'terraform apply -auto-approve'
             }
         }
     }
