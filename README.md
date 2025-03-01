@@ -1,5 +1,11 @@
 Method 1
 1.create vpc and subnet in aws using terraform code
+
+
+
+
+
+
 2.Create a repository in github and push terraform code to github
 3.Trigger the github code using github action method
 4.Vpc and Subnet are created automatically in aws 
