@@ -45,8 +45,23 @@ Method 2
 
 
 6.Install terrfaorm ,git other necessary plugin to plugin in Manage Jenkins 
+
+
+
 7.create a job in jenkins and select pipline then go the config setting add repository url of github ,add path of jenkins file ,also and branch 
+
+
+
 8.add IAM user AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to the credential in manage
+
+
+
 9.Then Trigger the New Create job in jenkins
+
+
+
 10.Vpc and Subnet are created automatically in aws
+
+
+
 
